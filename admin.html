@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FoodPick</title>
+    <meta name="description" content="FoodPick Admin Dashboard - Manage menu, orders, and analytics">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, #111827 0%, #1F2937 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .kanban-column {
+            background: #F9FAFB;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            min-height: 400px;
+        }
+        
+        .kanban-header {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E5E7EB;
+        }
+        
+        .kanban-item {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .kanban-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .order-id {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .order-time {
+            font-size: 0.875rem;
+            color: #6B7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .order-total {
+            font-weight: 500;
+            color: #16A34A;
+        }
+        
+        .status-actions {
+            display: flex;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+        
+        .status-btn {
+            background: none;
+            border: 1px solid #E5E7EB;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .status-btn:hover {
+            background: #F3F4F6;
+        }
+        
+        .status-btn.active {
+            background: #FF4D4F;
+            color: white;
+            border-color: #FF4D4F;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 2rem;
+        }
+        
+        .export-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .menu-form {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .variants-section,
+        .addons-section {
+            border: 1px solid #E5E7EB;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .variant-item,
+        .addon-item {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .variant-item input,
+        .addon-item input {
+            flex: 1;
+        }
+        
+        .remove-btn {
+            background: #EF4444;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+        
+        .add-btn {
+            background: #10B981;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-actions {
+                flex-direction: column;
+            }
+            
+            .kanban-board {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .export-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">Admin Dashboard</h1>
+                    <p style="font-size: 1.125rem; opacity: 0.9;">Manage your FoodPick restaurant</p>
+                </div>
+                
+                <div class="admin-actions">
+                    <button class="btn btn-outline" onclick="seedDemoData()" style="border-color: white; color: white;">
+                        Seed Demo Data
+                    </button>
+                    <button class="btn btn-outline" onclick="clearAllData()" style="border-color: white; color: white;">
+                        Clear All Data
+                    </button>
+                    <button class="btn btn-white" onclick="window.location.href='index.html'">
+                        View Public Site
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-bottom: 3rem;">
+        <!-- Quick Stats -->
+        <div class="stats-grid" id="adminStatsGrid" style="margin-bottom: 2rem;">
+            <!-- Stats will be populated by JavaScript -->
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="menu" onclick="switchAdminTab('menu')">
+                    <i data-lucide="menu"></i>
+                    Menu Manager
+                </button>
+                <button class="tab-btn" data-tab="orders" onclick="switchAdminTab('orders')">
+                    <i data-lucide="package"></i>
+                    Orders
+                </button>
+                <button class="tab-btn" data-tab="coupons" onclick="switchAdminTab('coupons')">
+                    <i data-lucide="ticket"></i>
+                    Coupons
+                </button>
+                <button class="tab-btn" data-tab="analytics" onclick="switchAdminTab('analytics')">
+                    <i data-lucide="bar-chart-3"></i>
+                    Analytics
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <!-- Menu Manager Tab -->
+                <div class="tab-pane active" id="menuTab">
+                    <div class="tab-header">
+                        <h2>Menu Items (<span id="menuItemCount">0</span>)</h2>
+                        <button class="btn btn-primary" onclick="showMenuItemModal()">
+                            <i data-lucide="plus"></i>
+                            Add Menu Item
+                        </button>
+                    </div>
+                    <div id="menuItemsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- Menu items will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Orders Tab -->
+                <div class="tab-pane" id="ordersTab">
+                    <div class="tab-header">
+                        <h2>Order Management</h2>
+                        <button class="btn btn-outline" onclick="markAllDelivered()">
+                            Mark All Delivered
+                        </button>
+                    </div>
+                    
+                    <div class="kanban-board" id="ordersKanban">
+                        <!-- Order columns will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Coupons Tab -->
+                <div class="tab-pane" id="couponsTab">
+                    <div class="tab-header">
+                        <h2>Coupon Management</h2>
+                        <button class="btn btn-primary" onclick="showCouponModal()">
+                            <i data-lucide="plus"></i>
+                            Add Coupon
+                        </button>
+                    </div>
+                    <div id="couponsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- Coupons will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div class="tab-pane" id="analyticsTab">
+                    <h2>Sales Analytics</h2>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                        <!-- Revenue Chart -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Revenue Overview</h3>
+                            </div>
+                            <div class="card-content">
+                                <div id="revenueStats">
+                                    <!-- Revenue stats will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top Categories -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Top Categories</h3>
+                            </div>
+                            <div class="card-content">
+                                <div id="topCategories">
+                                    <!-- Top categories will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Sales Chart</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="chart-container">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Export Options -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Export Data</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="export-actions">
+                                <button class="btn btn-outline" onclick="exportOrdersCSV()">
+                                    Export Orders (CSV)
+                                </button>
+                                <button class="btn btn-outline" onclick="window.print()">
+                                    Print Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeAdminModal()"></div>
+    
+    <!-- Menu Item Modal -->
+    <div class="modal" id="menuItemModal" style="max-width: 600px;">
+        <div class="modal-header">
+            <h2 id="menuItemModalTitle">Add New Menu Item</h2>
+            <button class="close-btn" onclick="closeAdminModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <form class="menu-form" onsubmit="saveMenuItem(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category" required>
+                            <option value="">Select category</option>
+                            <option value="Rice & Bowls">Rice & Bowls</option>
+                            <option value="Soups & Swallow">Soups & Swallow</option>
+                            <option value="Grills & Suya">Grills & Suya</option>
+                            <option value="Shawarma & Wraps">Shawarma & Wraps</option>
+                            <option value="Breakfast & Pastries">Breakfast & Pastries</option>
+                            <option value="Drinks & Smoothies">Drinks & Smoothies</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="description" rows="3" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Base Price (₦)</label>
+                        <input type="number" name="basePrice" required min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <input type="number" name="rating" min="0" max="5" step="0.1" value="4.0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" name="imageUrl" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags (comma separated)</label>
+                    <input type="text" name="tags" placeholder="popular, spicy, vegan">
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="available" checked>
+                        <span>Available for order</span>
+                    </label>
+                </div>
+
+                <!-- Variants Section -->
+                <div class="variants-section">
+                    <h4>Variants</h4>
+                    <div id="variantsContainer">
+                        <!-- Variants will be added dynamically -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addVariant()">Add Variant</button>
+                </div>
+
+                <!-- Add-ons Section -->
+                <div class="addons-section">
+                    <h4>Add-ons</h4>
+                    <div id="addonsContainer">
+                        <!-- Add-ons will be added dynamically -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addAddon()">Add Add-on</button>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Menu Item</button>
+                    <button type="button" class="btn btn-outline" onclick="closeAdminModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Coupon Modal -->
+    <div class="modal" id="couponModal">
+        <div class="modal-header">
+            <h2 id="couponModalTitle">Add New Coupon</h2>
+            <button class="close-btn" onclick="closeAdminModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <form onsubmit="saveCoupon(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Coupon Code</label>
+                        <input type="text" name="code" required style="text-transform: uppercase;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select name="type" onchange="updateCouponValueLabel(this)">
+                            <option value="percent">Percentage</option>
+                            <option value="flat">Fixed Amount</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" name="description" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label id="couponValueLabel">Value (%)</label>
+                        <input type="number" name="value" required min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Minimum Amount (₦)</label>
+                        <input type="number" name="minAmount" required min="0" step="0.01">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiry Date</label>
+                        <input type="date" name="expiry" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Usage Limit</label>
+                        <input type="number" name="usageLimit" required min="1" value="1">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="active" checked>
+                        <span>Active</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Coupon</button>
+                    <button type="button" class="btn btn-outline" onclick="closeAdminModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderDetailsModal">
+        <div class="modal-header">
+            <h2 id="orderDetailsTitle">Order Details</h2>
+            <button class="close-btn" onclick="closeAdminModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-content" id="orderDetailsContent">
+            <!-- Order details will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toasts will be populated by JavaScript -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="admin.js"></script>
+</body>
+</html>

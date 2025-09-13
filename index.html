@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodPick - Freshly made. Swiftly delivered.</title>
+    <meta name="description" content="Authentic Nigerian cuisine delivered fresh to your doorstep across Warri and environs">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo" onclick="navigateTo('home')">
+                    <div class="logo-icon">
+                        <span>F</span>
+                    </div>
+                    <div class="logo-text">
+                        <h1>FoodPick</h1>
+                        <p>Freshly made. Swiftly delivered.</p>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav-desktop">
+                    <button onclick="navigateTo('home')" class="nav-link active" data-page="home">Home</button>
+                    <button onclick="navigateTo('menu')" class="nav-link" data-page="menu">Menu</button>
+                    <button onclick="navigateTo('about')" class="nav-link" data-page="about">About</button>
+                    <button onclick="navigateTo('contact')" class="nav-link" data-page="contact">Contact</button>
+                </nav>
+
+                <!-- Right side buttons -->
+                <div class="header-actions">
+                    <!-- Cart -->
+                    <button class="cart-btn" onclick="toggleCart()">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+
+                    <!-- Dashboard -->
+                    <button class="btn btn-ghost btn-sm" onclick="navigateTo('dashboard')">
+                        <i data-lucide="user"></i>
+                        <span class="btn-text">Dashboard</span>
+                    </button>
+
+                    <!-- Call -->
+                    <button class="btn btn-primary btn-sm call-btn" onclick="window.open('tel:+2348123456789')">
+                        <i data-lucide="phone"></i>
+                        <span class="btn-text">Call Us</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <nav class="nav-mobile">
+                <button onclick="navigateTo('home')" class="nav-link active" data-page="home">Home</button>
+                <button onclick="navigateTo('menu')" class="nav-link" data-page="menu">Menu</button>
+                <button onclick="navigateTo('about')" class="nav-link" data-page="about">About</button>
+                <button onclick="navigateTo('contact')" class="nav-link" data-page="contact">Contact</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="mainContent">
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-bg"></div>
+                <div class="container">
+                    <div class="hero-content">
+                        <div class="hero-text">
+                            <h1 class="hero-title">
+                                Freshly made.<br>
+                                <span class="text-accent">Swiftly delivered.</span>
+                            </h1>
+                            <p class="hero-description">
+                                Authentic Nigerian cuisine delivered fresh to your doorstep across Warri and environs. 
+                                From traditional soups to modern grills – we've got your cravings covered.
+                            </p>
+                            
+                            <!-- Search Bar -->
+                            <div class="search-bar">
+                                <div class="search-input">
+                                    <i data-lucide="search"></i>
+                                    <input type="text" placeholder="What are you craving?" id="heroSearch">
+                                </div>
+                                <button class="btn btn-primary" onclick="navigateTo('menu')">Search</button>
+                            </div>
+
+                            <div class="hero-actions">
+                                <button class="btn btn-white btn-lg" onclick="navigateTo('menu')">
+                                    Order Now
+                                    <i data-lucide="arrow-right"></i>
+                                </button>
+                                <button class="btn btn-outline btn-lg" onclick="window.open('tel:+2348123456789')">
+                                    <i data-lucide="clock"></i>
+                                    Call to Order
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="hero-image">
+                            <img src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&cs=tinysrgb&w=600" 
+                                 alt="Delicious Nigerian food" class="animate-float">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features">
+                <div class="container">
+                    <div class="features-grid stagger-animation">
+                        <div class="feature-card">
+                            <div class="feature-icon bg-green">
+                                <i data-lucide="clock"></i>
+                            </div>
+                            <h3>Fast Delivery</h3>
+                            <p>Fresh meals delivered in 30-45 minutes across Warri zones</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon bg-blue">
+                                <i data-lucide="shield"></i>
+                            </div>
+                            <h3>Quality Assured</h3>
+                            <p>Prepared with the highest hygiene standards and fresh ingredients</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <div class="feature-icon bg-yellow">
+                                <i data-lucide="truck"></i>
+                            </div>
+                            <h3>Wide Coverage</h3>
+                            <p>Serving Effurun, Enerhen, Udu, Ekpan and more areas</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Browse Categories</h2>
+                        <p class="section-description">Discover our wide range of authentic Nigerian dishes</p>
+                    </div>
+                    
+                    <div class="categories-grid" id="categoriesGrid">
+                        <!-- Categories will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="testimonials">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">What Our Customers Say</h2>
+                        <p class="section-description">Join thousands of satisfied customers across Warri</p>
+                    </div>
+                    
+                    <div class="testimonials-grid stagger-animation">
+                        <div class="testimonial-card">
+                            <div class="stars">
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                            </div>
+                            <p>"Best jollof rice in Warri! Always fresh and delivered on time."</p>
+                            <div class="testimonial-author">
+                                <strong>Adaeze Okafor</strong>
+                                <span>Effurun</span>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="stars">
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                            </div>
+                            <p>"The suya platter is amazing. Great service and reasonable prices."</p>
+                            <div class="testimonial-author">
+                                <strong>Emeka Johnson</strong>
+                                <span>Enerhen</span>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="stars">
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                                <i data-lucide="star" class="star-filled"></i>
+                            </div>
+                            <p>"Love the variety! From traditional soups to modern wraps."</p>
+                            <div class="testimonial-author">
+                                <strong>Blessing Uwem</strong>
+                                <span>Airport Road</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mobile Hero Image -->
+            <section class="mobile-hero">
+                <div class="container">
+                    <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                         alt="Delicious Nigerian food" class="animate-float">
+                </div>
+            </section>
+
+            <!-- Newsletter Section -->
+            <section class="newsletter">
+                <div class="container">
+                    <div class="newsletter-content">
+                        <h2>Stay Updated</h2>
+                        <p>Get notified about new menu items, special offers, and exclusive deals</p>
+                        
+                        <div class="newsletter-form">
+                            <input type="email" placeholder="Enter your email" id="newsletterEmail">
+                            <button class="btn btn-primary" onclick="subscribeNewsletter()">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Menu Page -->
+        <div id="menuPage" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Our Menu</h1>
+                    <p>Discover authentic Nigerian flavors</p>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="menu-filters">
+                    <div class="search-bar">
+                        <i data-lucide="search"></i>
+                        <input type="text" placeholder="Search for dishes, ingredients, or tags..." id="menuSearch">
+                    </div>
+
+                    <div class="filter-bar">
+                        <select id="categoryFilter">
+                            <option value="all">All Categories</option>
+                        </select>
+
+                        <select id="sortFilter">
+                            <option value="popular">Most Popular</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="name">Name (A-Z)</option>
+                        </select>
+
+                        <button class="btn btn-outline" onclick="toggleAdvancedFilters()">
+                            <i data-lucide="sliders-horizontal"></i>
+                            Filters
+                        </button>
+                    </div>
+
+                    <!-- Advanced Filters -->
+                    <div class="advanced-filters" id="advancedFilters">
+                        <h3>Filter Options</h3>
+                        <div class="price-range">
+                            <label>Price Range: ₦<span id="minPriceLabel">0</span> - ₦<span id="maxPriceLabel">10000</span></label>
+                            <div class="range-inputs">
+                                <input type="range" id="minPrice" min="0" max="10000" value="0">
+                                <input type="range" id="maxPrice" min="0" max="10000" value="10000">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Count -->
+                <div class="results-count">
+                    <p id="resultsText">Loading menu items...</p>
+                </div>
+
+                <!-- Menu Items Grid -->
+                <div class="menu-grid" id="menuGrid">
+                    <!-- Menu items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>My Dashboard</h1>
+                    <p>Manage your orders, addresses, and preferences</p>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Stats will be populated by JavaScript -->
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab-nav">
+                        <button class="tab-btn active" data-tab="orders" onclick="switchTab('orders')">
+                            <i data-lucide="package"></i>
+                            Orders
+                        </button>
+                        <button class="tab-btn" data-tab="addresses" onclick="switchTab('addresses')">
+                            <i data-lucide="map-pin"></i>
+                            Addresses
+                        </button>
+                        <button class="tab-btn" data-tab="coupons" onclick="switchTab('coupons')">
+                            <i data-lucide="ticket"></i>
+                            Coupons
+                        </button>
+                        <button class="tab-btn" data-tab="settings" onclick="switchTab('settings')">
+                            <i data-lucide="settings"></i>
+                            Settings
+                        </button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- Orders Tab -->
+                        <div class="tab-pane active" id="ordersTab">
+                            <div id="ordersContent">
+                                <!-- Orders will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Addresses Tab -->
+                        <div class="tab-pane" id="addressesTab">
+                            <div class="tab-header">
+                                <h2>Saved Addresses</h2>
+                                <button class="btn btn-primary" onclick="showAddressModal()">
+                                    <i data-lucide="plus"></i>
+                                    Add Address
+                                </button>
+                            </div>
+                            <div id="addressesContent">
+                                <!-- Addresses will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Coupons Tab -->
+                        <div class="tab-pane" id="couponsTab">
+                            <h2>Available Coupons</h2>
+                            <div id="couponsContent">
+                                <!-- Coupons will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Settings Tab -->
+                        <div class="tab-pane" id="settingsTab">
+                            <h2>Account Settings</h2>
+                            <div class="settings-grid">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Profile Information</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <input type="text" id="userName" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" id="userEmail" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone</label>
+                                            <input type="tel" id="userPhone" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>WhatsApp</label>
+                                            <input type="tel" id="userWhatsapp" readonly>
+                                        </div>
+                                        <button class="btn btn-outline">Edit Profile</button>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3>Need Help?</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <p>Get in touch with our customer support team for any questions or issues.</p>
+                                        
+                                        <button class="btn btn-primary btn-lg support-btn" onclick="callSupport()">
+                                            <i data-lucide="phone"></i>
+                                            Call Customer Representative
+                                        </button>
+                                        
+                                        <button class="btn btn-secondary btn-lg support-btn" onclick="whatsappSupport()">
+                                            <i data-lucide="message-circle"></i>
+                                            WhatsApp Support
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="aboutPage" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>About FoodPick</h1>
+                    <p>Freshly made. Swiftly delivered.</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-section">
+                        <div class="about-image">
+                            <img src="https://images.pexels.com/photos/2474658/pexels-photo-2474658.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Our kitchen">
+                        </div>
+                        <div class="about-text">
+                            <h2>Our Story</h2>
+                            <p>Founded in 2024, FoodPick was born from a passion for authentic Nigerian cuisine and the desire to bring fresh, delicious meals to the people of Warri and environs.</p>
+                            <p>We believe that great food should be accessible to everyone, delivered quickly, and prepared with the highest standards of hygiene and quality.</p>
+                            <p>From traditional jollof rice and native soups to modern grills and wraps, we celebrate the rich culinary heritage of Nigeria while embracing contemporary tastes.</p>
+                        </div>
+                    </div>
+
+                    <div class="commitment-section">
+                        <h2>Our Commitment</h2>
+                        <div class="commitment-grid">
+                            <div class="commitment-card">
+                                <div class="commitment-icon">🍃</div>
+                                <h3>Fresh Ingredients</h3>
+                                <p>We source only the freshest ingredients from trusted local suppliers.</p>
+                            </div>
+                            <div class="commitment-card">
+                                <div class="commitment-icon">🛡️</div>
+                                <h3>Hygiene Standards</h3>
+                                <p>Our kitchen maintains the highest hygiene and food safety standards.</p>
+                            </div>
+                            <div class="commitment-card">
+                                <div class="commitment-icon">⚡</div>
+                                <h3>Fast Delivery</h3>
+                                <p>Quick delivery across all zones in Warri, typically 30-45 minutes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="coverage-section">
+                        <h2>Delivery Coverage</h2>
+                        <div class="coverage-grid">
+                            <div class="coverage-zone">
+                                <h3>Zone A - ₦500</h3>
+                                <p>Enerhen, PTI Rd, Effurun, Airport Rd</p>
+                            </div>
+                            <div class="coverage-zone">
+                                <h3>Zone B - ₦800</h3>
+                                <p>Udu Rd, DSC, Ovwian, Okuokoko</p>
+                            </div>
+                            <div class="coverage-zone">
+                                <h3>Zone C - ₦1,200</h3>
+                                <p>Ekpan, Jeddo, Ugborikoko, Jakpa</p>
+                            </div>
+                        </div>
+                        <p class="free-delivery">FREE delivery on orders ≥ ₦20,000 (same zone)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contactPage" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Contact Us</h1>
+                    <p>We'd love to hear from you</p>
+                </div>
+
+                <div class="contact-content">
+                    <div class="contact-form-section">
+                        <h2>Send us a message</h2>
+                        <form class="contact-form" onsubmit="submitContactForm(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone</label>
+                                    <input type="tel" name="phone">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Subject</label>
+                                <select name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="order">Order Inquiry</option>
+                                    <option value="complaint">Complaint</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="partnership">Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea name="message" rows="5" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info-section">
+                        <h2>Get in touch</h2>
+                        
+                        <div class="contact-info">
+                            <h3>Contact Information</h3>
+                            <div class="contact-item">
+                                <span>📞</span>
+                                <a href="tel:+2348123456789">+234 812 345 6789</a>
+                            </div>
+                            <div class="contact-item">
+                                <span>📧</span>
+                                <a href="mailto:hello@foodpick.ng">hello@foodpick.ng</a>
+                            </div>
+                            <div class="contact-item">
+                                <span>📍</span>
+                                <span>Warri, Delta State, Nigeria</span>
+                            </div>
+                        </div>
+
+                        <div class="business-hours">
+                            <h3>Business Hours</h3>
+                            <p>Monday - Friday: 8:00 AM - 10:00 PM</p>
+                            <p>Saturday: 9:00 AM - 11:00 PM</p>
+                            <p>Sunday: 10:00 AM - 9:00 PM</p>
+                        </div>
+
+                        <div class="quick-actions">
+                            <h3>Quick Actions</h3>
+                            <button class="btn btn-success btn-lg" onclick="whatsappSupport()">
+                                💬 Chat on WhatsApp
+                            </button>
+                            <button class="btn btn-info btn-lg" onclick="window.open('tel:+2348123456789')">
+                                📞 Call Us Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-btn" onclick="closeCart()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <div class="cart-content" id="cartContent">
+            <!-- Cart items will be populated by JavaScript -->
+        </div>
+
+        <div class="cart-footer" id="cartFooter">
+            <!-- Cart summary will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+    
+    <!-- Customize Item Modal -->
+    <div class="modal" id="customizeModal">
+        <div class="modal-header">
+            <h2 id="customizeTitle">Customize Item</h2>
+            <button class="close-btn" onclick="closeModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-content" id="customizeContent">
+            <!-- Customize options will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Address Modal -->
+    <div class="modal" id="addressModal">
+        <div class="modal-header">
+            <h2 id="addressModalTitle">Add New Address</h2>
+            <button class="close-btn" onclick="closeModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <form class="address-form" onsubmit="saveAddress(event)">
+                <div class="form-group">
+                    <label>Label</label>
+                    <input type="text" name="label" placeholder="Home, Office, etc." required>
+                </div>
+
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <input type="text" name="street" placeholder="Enter street address" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Area</label>
+                        <select name="area" required>
+                            <option value="">Select area</option>
+                            <option value="Enerhen">Enerhen</option>
+                            <option value="PTI Rd">PTI Rd</option>
+                            <option value="Effurun">Effurun</option>
+                            <option value="Airport Rd">Airport Rd</option>
+                            <option value="Udu Rd">Udu Rd</option>
+                            <option value="DSC">DSC</option>
+                            <option value="Ovwian">Ovwian</option>
+                            <option value="Okuokoko">Okuokoko</option>
+                            <option value="Ekpan">Ekpan</option>
+                            <option value="Jeddo">Jeddo</option>
+                            <option value="Ugborikoko">Ugborikoko</option>
+                            <option value="Jakpa">Jakpa</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Zone</label>
+                        <select name="zone" required>
+                            <option value="A">Zone A (₦500)</option>
+                            <option value="B">Zone B (₦800)</option>
+                            <option value="C">Zone C (₦1,200)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Landmark</label>
+                    <input type="text" name="landmark" placeholder="Nearest landmark">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="+234 xxx xxx xxxx" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp Number</label>
+                        <input type="tel" name="whatsapp" placeholder="+234 xxx xxx xxxx">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="isDefault">
+                        <span>Set as default address</span>
+                    </label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save Address</button>
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Location Selection Modal -->
+    <div class="modal" id="locationModal" style="max-width: 600px;">
+        <div class="modal-header">
+            <h2>Select Delivery Location</h2>
+            <button class="close-btn" onclick="closeModal()">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <div style="margin-bottom: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Saved Addresses</h3>
+                    <button class="btn btn-outline btn-sm" onclick="showAddressModal()">
+                        <i data-lucide="plus"></i>
+                        Add New Address
+                    </button>
+                </div>
+                <div id="savedAddressesList">
+                    <!-- Saved addresses will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toasts will be populated by JavaScript -->
+    </div>
+
+    <!-- Admin Access Button -->
+    <button class="admin-btn" onclick="adminAccess()">Admin</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <span>F</span>
+                        </div>
+                        <div class="logo-text">
+                            <h3>FoodPick</h3>
+                            <p>Freshly made. Swiftly delivered.</p>
+                        </div>
+                    </div>
+                    <p>Your trusted partner for authentic Nigerian cuisine across Warri and environs. We deliver fresh, delicious meals right to your doorstep.</p>
+                    <div class="footer-contact">
+                        <span>📱 +234 812 345 6789</span>
+                        <span>📧 hello@foodpick.ng</span>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#" onclick="navigateTo('menu')">Menu</a></li>
+                        <li><a href="#" onclick="navigateTo('about')">About Us</a></li>
+                        <li><a href="#" onclick="navigateTo('contact')">Contact</a></li>
+                        <li><a href="#" onclick="navigateTo('dashboard')">My Account</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-areas">
+                    <h4>Delivery Areas</h4>
+                    <ul>
+                        <li>Effurun • Enerhen</li>
+                        <li>Udu • DSC</li>
+                        <li>Ekpan • Jakpa</li>
+                        <li>And many more...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 FoodPick. All rights reserved. Built with ❤️ for food lovers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
